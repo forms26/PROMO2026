@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PROMO 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Limelight&display=swap">
+<style>
+/* Diseño: una pasarela roja con marquesina de bombillas. Cada categoría es una tarjeta sobre la alfombra y el voto se emite con una entrada de cine dorada. Un solo mundo visual: noche, rojo, oro. */
+:root {
+  --noche: #0d0709;
+  --tarjeta: #170c10;
+  --linea: rgba(226, 178, 76, 0.3);
+  --alfombra: #a8101d;
+  --alfombra-osc: #6f0a13;
+  --oro: #e2b24c;
+  --oro-claro: #f5dc92;
+  --marfil: #f6ecd9;
+  --marfil-2: #cdbfa8;
+  --plata: #cfd3da;
+  --bronce: #cf8a55;
+  --tinta: #1a0b0e;
+  --f-display: "Limelight", "Poiret One", Georgia, serif;
+  --f-cuerpo: "Josefin Sans", "Trebuchet MS", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--noche); }
+body {
+  margin: 0;
+  background: var(--noche);
+  color: var(--marfil);
+  font-family: var(--f-cuerpo);
+  font-size: 16px;
+  line-height: 1.45;
+  padding-block: calc(20px + env(safe-area-inset-top, 0px)) calc(56px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.contenedor { max-width: 760px; margin-inline: auto; }
+h1, h2 { text-wrap: balance; font-weight: 400; margin: 0; }
+
+/* Marquesina */
+.marquesina {
+  text-align: center;
+  padding: 6px 8px 26px;
+  background: radial-gradient(ellipse 70% 90% at 50% 0%, rgba(168, 16, 29, 0.4), transparent 72%);
+}
+.luces {
+  height: 16px;
+  background: radial-gradient(circle, var(--oro-claro) 0 3px, rgba(245, 220, 146, 0.28) 4px 6px, transparent 7px) 50% 50% / 26px 16px repeat-x;
+  animation: parpadeo 1.6s steps(2, jump-none) infinite;
+}
+.luces.b { animation-delay: 0.8s; }
+@keyframes parpadeo { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.sobre {
+  margin: 20px 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--oro);
+}
+.marquesina h1 {
+  font-family: var(--f-display);
+  font-size: clamp(2.5rem, 10vw, 4.4rem);
+  line-height: 1.05;
+  margin: 10px 0 8px;
+  color: var(--oro-claro);
+  text-shadow: 0 0 26px rgba(226, 178, 76, 0.4);
+}
+.sub { margin: 0 0 22px; color: var(--marfil-2); }
+
+/* Entrada de cine */
+.zona-cta { text-align: center; padding: 8px 0 30px; }
+.boleto {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: min(300px, 100%);
+  padding: 14px 52px 16px;
+  border: 0;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--oro-claro), var(--oro));
+  color: var(--tinta);
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 6px 0 var(--alfombra-osc), 0 14px 34px rgba(168, 16, 29, 0.45);
+}
+.boleto::before, .boleto::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--noche);
+  transform: translateY(-50%);
+}
+.boleto::before { left: -10px; }
+.boleto::after { right: -10px; }
+.boleto small { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; }
+.boleto strong { font-family: var(--f-display); font-weight: 400; font-size: 1.8rem; letter-spacing: 0.03em; }
+.boleto:hover:not([disabled]) { filter: brightness(1.07); }
+.boleto:active:not([disabled]) { transform: translateY(3px); box-shadow: 0 3px 0 var(--alfombra-osc); }
+.boleto:focus-visible { outline: 3px solid var(--marfil); outline-offset: 5px; }
+.boleto[disabled] { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+.nota { max-width: 46ch; margin: 16px auto 0; color: var(--marfil-2); font-size: 0.95rem; }
+.aviso { max-width: 60ch; margin: 0 auto 14px; padding: 8px 12px; border: 1px dashed var(--linea); border-radius: 4px; color: var(--marfil-2); font-size: 0.92rem; text-align: center; }
+
+/* Resultados sobre la alfombra */
+.encabezado-res { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 0 0 12px; }
+.encabezado-res h2 { font-family: var(--f-display); font-size: 1.5rem; color: var(--oro-claro); }
+.contador { margin: 0; color: var(--marfil-2); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.pasarela {
+  display: grid;
+  gap: 14px;
+  padding: 18px 12px;
+  background: linear-gradient(90deg, var(--alfombra-osc), var(--alfombra) 10%, var(--alfombra) 90%, var(--alfombra-osc));
+  border-inline: 3px solid var(--oro);
+}
+.carta { min-width: 0; padding: 16px 14px 14px; background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 6px; }
+.carta-cab { display: flex; align-items: center; gap: 10px; }
+.carta h2 { font-family: var(--f-display); font-size: 1.35rem; line-height: 1.15; color: var(--oro-claro); }
+.desc { margin: 4px 0 12px; color: var(--marfil-2); font-size: 0.95rem; }
+.podio { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.podio li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 7px 8px; background: rgba(246, 236, 217, 0.05); border-radius: 4px; }
+.puesto { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: var(--tinta); font-size: 0.85rem; font-weight: 700; }
+.p1 { background: var(--oro); }
+.p2 { background: var(--plata); }
+.p3 { background: var(--bronce); }
+.vacio .puesto { background: transparent; border: 1px dashed var(--linea); color: var(--marfil-2); }
+.vacio .nom { color: var(--marfil-2); font-weight: 400; }
+.nom { overflow-wrap: anywhere; font-weight: 600; }
+.n { color: var(--marfil-2); font-size: 0.85rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.empate { margin: 8px 0 0; color: var(--marfil-2); font-size: 0.82rem; }
+
+/* Estrellas */
+.est { width: 22px; height: 22px; flex: none; fill: var(--oro); }
+.prog { display: flex; justify-content: center; gap: 6px; margin: 10px 0 4px; }
+.prog .est { width: 28px; height: 28px; fill: transparent; stroke: var(--oro); stroke-width: 1.4; opacity: 0.45; }
+.prog .hecha { fill: var(--oro); opacity: 1; }
+.prog .actual { fill: rgba(226, 178, 76, 0.25); opacity: 1; }
+
+/* Votar */
+.vota { padding-bottom: 130px; }
+.fila-sup { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; }
+.enlace { padding: 8px 0; border: 0; background: none; color: var(--oro); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.enlace:focus-visible { outline: 3px solid var(--marfil); outline-offset: 3px; }
+.paso { margin: 0; text-align: center; color: var(--oro); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
+.vota h1, .entrada h1 { margin: 10px 0 6px; text-align: center; font-family: var(--f-display); font-size: clamp(1.9rem, 7vw, 2.8rem); line-height: 1.1; color: var(--oro-claro); }
+.vota .desc, .entrada .desc { margin: 0 0 6px; text-align: center; font-size: 1.05rem; }
+.anonimo { margin: 0 0 20px; text-align: center; color: var(--marfil-2); font-size: 0.88rem; }
+.flash { margin: 0 0 14px; padding: 8px 12px; border-left: 3px solid var(--oro); background: rgba(226, 178, 76, 0.1); font-size: 0.92rem; }
+.error { margin: 14px 0 0; padding: 8px 12px; border-left: 3px solid var(--alfombra); background: rgba(168, 16, 29, 0.22); }
+.cands { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.cands legend, .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.cand { position: relative; display: block; min-width: 0; }
+.cand input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.cand input:disabled { cursor: not-allowed; }
+.tarjeta { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 56px; padding: 12px; background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 6px; font-weight: 600; overflow-wrap: anywhere; }
+.tarjeta::after { content: "\2605"; color: transparent; }
+.cand input:hover + .tarjeta { border-color: var(--oro); }
+.cand input:checked + .tarjeta { background: linear-gradient(180deg, var(--oro-claro), var(--oro)); border-color: var(--oro-claro); color: var(--tinta); }
+.cand input:checked + .tarjeta::after { color: var(--alfombra); }
+.cand input:focus-visible + .tarjeta { outline: 3px solid var(--marfil); outline-offset: 2px; }
+.cand input:disabled:not(:checked) + .tarjeta { opacity: 0.5; }
+.barra {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  background: rgba(13, 7, 9, 0.95);
+  border-top: 2px solid var(--oro);
+  padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.barra-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 14px; max-width: 760px; margin-inline: auto; }
+.eleccion { flex: 1 1 180px; min-width: 0; }
+.eleccion small { display: block; color: var(--marfil-2); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; }
+.eleccion b { display: block; overflow-wrap: anywhere; }
+.btn { padding: 12px 22px; border: 2px solid var(--oro); border-radius: 4px; background: var(--alfombra); color: var(--marfil); font: inherit; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+.btn:hover:not([disabled]) { background: #c0141f; }
+.btn:focus-visible { outline: 3px solid var(--marfil); outline-offset: 3px; }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+.final { padding: 40px 0 20px; text-align: center; }
+.final .est { width: 64px; height: 64px; margin-bottom: 8px; }
+.final h1 { font-family: var(--f-display); font-size: clamp(2rem, 8vw, 3rem); color: var(--oro-claro); margin-bottom: 10px; }
+.final p { max-width: 44ch; margin: 0 auto 26px; color: var(--marfil-2); }
+
+/* Código personal */
+.entrada { padding: 10px 0 30px; text-align: center; }
+.codigo-form { display: grid; justify-items: center; gap: 22px; margin-top: 18px; }
+#codigo {
+  width: min(320px, 100%);
+  padding: 12px 14px;
+  background: var(--tarjeta);
+  border: 2px solid var(--oro);
+  border-radius: 4px;
+  color: var(--marfil);
+  font: 700 1.7rem var(--f-cuerpo);
+  letter-spacing: 0.3em;
+  text-align: center;
+  text-transform: uppercase;
+}
+#codigo:focus-visible { outline: 3px solid var(--marfil); outline-offset: 3px; }
+
+@media (min-width: 640px) { .pasarela { padding: 22px 22px; gap: 18px; } .carta { padding: 18px 18px 16px; } }
+@media (prefers-reduced-motion: reduce) { .luces { animation: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="estrella" viewBox="0 0 24 24"><path d="M12 2.2l2.9 6.5 7.1.7-5.3 4.8 1.5 7-6.2-3.6-6.2 3.6 1.5-7L2 9.4l7.1-.7z"/></symbol>
+</svg>
+<main class="contenedor" id="app"></main>
+
+<script>
+(function () {
+  'use strict';
+
+  // Pega aquí la URL de tu aplicación web de Apps Script (la que termina en /exec).
+  // Si la dejas vacía, la página funciona en modo de prueba: los votos se guardan solo en este navegador.
+  var API_URL = '';
+
+  var DEMO = !API_URL;
+  var CLAVE = 'premios_codigo';
+  var CLAVE_DEMO = 'premios_demo';
+
+  var CATS = [
+    { id: 'organizador', n: 'El/La Organizador(a)', d: 'El que siempre ponía orden al grupo.' },
+    { id: 'excusa', n: 'El de la Excusa Perfecta', d: 'Quien siempre se salvaba de la tarea o impuntualidad.' },
+    { id: 'milagro', n: 'Modo Milagro', d: 'El que entregaba todo a última hora y pasaba.' },
+    { id: 'moda', n: 'El/La Ícono de Moda', d: 'El mejor look del salón.' },
+    { id: 'chispa', n: 'El/La Chispa', d: 'El que nos hacía reír en todo momento.' },
+    { id: 'radio', n: 'La Radio del Grupo', d: 'El que siempre ponía la música o andaba cantando.' },
+    { id: 'incondicional', n: 'El/La Incondicional', d: 'El amigo que nunca le decía “no” a nadie.' }
+  ];
+  // El orden debe ser igual al de NOMBRES en Code.gs (los ids son a01, a02, ...).
+  var NOMBRES = [
+    'Marissa Rivas', 'Ana Hernandez', 'Angiely Quintanilla', 'Arellys Ramos', 'Aylin Antunez',
+    'Aimar Aguilar', 'Kimberly Claros', 'Ledis Guifarro', 'Liz Ruiz', 'Nahomy Servellon',
+    'Nicol Lopez', 'Silvia Sanchez', 'Stacy Guerrero', 'Stephanie Pineda', 'Tateri Perdomo',
+    'Yenifer Mendez', 'Cristopher Bejarano', 'Fernanddo Croasdaile', 'Hector Arias', 'Jose Hernandez',
+    'Kaletf Aguilera', 'Kenneth Hernandez', 'Maikol Catellanos', 'Osvaldo Cerrato',
+    'Ulbrecth Croasdaile', 'Yefri Carrillos'
+  ];
+  var ALUMNOS = NOMBRES.map(function (n, i) { return { id: 'a' + (i < 9 ? '0' : '') + (i + 1), n: n }; });
+  var POR_ID = {};
+  ALUMNOS.forEach(function (a) { POR_ID[a.id] = a; });
+  var CAT_ID = {};
+  CATS.forEach(function (c) { CAT_ID[c.id] = c; });
+  var ORDEN = ALUMNOS.slice().sort(function (a, b) { return a.n.localeCompare(b.n, 'es'); });
+
+  var app = document.getElementById('app');
+  var st = {
+    codigo: '', estadoListo: false,
+    counts: {}, total: 0, live: false, fallo: false,
+    done: {}, sel: null, saving: false, error: '', flash: ''
+  };
+
+  // ---------- utilidades ----------
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function leer(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function guardar(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } }
+  function borrar(k) { try { localStorage.removeItem(k); } catch (e) { /* sin almacenamiento */ } }
+  function vista() { return location.hash === '#votar' ? 'votar' : 'inicio'; }
+  function limpiarCodigo(s) { return String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
+  function pendientes() { return CATS.filter(function (c) { return !st.done[c.id]; }); }
+  function estrella(cls) { return '<svg class="est ' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true"><use href="#estrella"/></svg>'; }
+  function normalizarDone(d) {
+    var r = {};
+    CATS.forEach(function (c) { if (d && d[c.id] === true) r[c.id] = true; });
+    return r;
+  }
+
+  // ---------- conexión (Apps Script o modo de prueba) ----------
+  function demoDatos() {
+    var d;
+    try { d = JSON.parse(leer(CLAVE_DEMO) || '{}'); } catch (e) { d = {}; }
+    d.counts = d.counts || {};
+    d.done = d.done || {};
+    return d;
+  }
+  function llamar(body) {
+    if (!DEMO) {
+      return fetch(API_URL, { method: 'POST', body: JSON.stringify(body) }).then(function (r) { return r.json(); });
+    }
+    return new Promise(function (resolve) {
+      var d = demoDatos(), cod = body.codigo;
+      d.done[cod] = d.done[cod] || {};
+      if (body.action === 'votar') {
+        if (d.done[cod][body.cat]) return resolve({ ok: false, error: 'ya_voto', done: d.done[cod] });
+        d.done[cod][body.cat] = true;
+        d.counts[body.cat] = d.counts[body.cat] || {};
+        d.counts[body.cat][body.alumno] = (d.counts[body.cat][body.alumno] || 0) + 1;
+        guardar(CLAVE_DEMO, JSON.stringify(d));
+      }
+      resolve({ ok: true, done: d.done[cod] });
+    });
+  }
+  function leerResultados() {
+    if (!DEMO) return fetch(API_URL + '?t=' + Date.now()).then(function (r) { return r.json(); });
+    var d = demoDatos(), total = 0;
+    Object.keys(d.counts).forEach(function (c) {
+      Object.keys(d.counts[c]).forEach(function (a) { total += d.counts[c][a]; });
+    });
+    return Promise.resolve({ ok: true, counts: d.counts, total: total });
+  }
+  function refrescar() {
+    leerResultados().then(function (r) {
+      if (!r || !r.ok) throw new Error('respuesta');
+      var counts = {}, total = 0;
+      Object.keys(r.counts || {}).forEach(function (c) {
+        if (!CAT_ID[c]) return;
+        Object.keys(r.counts[c]).forEach(function (a) {
+          var n = Number(r.counts[c][a]) || 0;
+          if (!POR_ID[a] || n < 1) return;
+          counts[c] = counts[c] || {};
+          counts[c][a] = n;
+          total += n;
+        });
+      });
+      st.counts = counts; st.total = total; st.live = true; st.fallo = false;
+      if (vista() === 'inicio') render();
+    }).catch(function () {
+      if (!st.live) { st.fallo = true; if (vista() === 'inicio') render(); }
+    });
+  }
+
+  // ---------- resultados ----------
+  function top3(catId) {
+    var m = st.counts[catId] || {};
+    var arr = Object.keys(m).map(function (id) { return { id: id, n: m[id] }; });
+    arr.sort(function (a, b) { return b.n - a.n || POR_ID[a.id].n.localeCompare(POR_ID[b.id].n, 'es'); });
+    var top = arr.slice(0, 3).map(function (x) {
+      return { id: x.id, n: x.n, rank: 1 + arr.filter(function (y) { return y.n > x.n; }).length };
+    });
+    var extra = 0;
+    if (arr.length > 3) {
+      var corte = arr[2].n;
+      extra = arr.slice(3).filter(function (y) { return y.n === corte; }).length;
+    }
+    return { top: top, extra: extra };
+  }
+
+  function cartaHTML(c) {
+    var r = top3(c.id), html = '';
+    for (var i = 0; i < 3; i++) {
+      var t = r.top[i];
+      if (t) {
+        html += '<li><span class="puesto p' + t.rank + '">' + t.rank + '</span><span class="nom">' + esc(POR_ID[t.id].n) +
+          '</span><span class="n">' + t.n + (t.n === 1 ? ' voto' : ' votos') + '</span></li>';
+      } else {
+        html += '<li class="vacio"><span class="puesto">' + (i + 1) + '</span><span class="nom">Aún sin votos</span><span class="n"></span></li>';
+      }
+    }
+    var empate = r.extra ? '<p class="empate">Y ' + r.extra + (r.extra === 1 ? ' persona más' : ' personas más') + ' con los mismos votos que el tercer lugar.</p>' : '';
+    return '<article class="carta"><div class="carta-cab">' + estrella() + '<h2>' + esc(c.n) + '</h2></div>' +
+      '<p class="desc">' + esc(c.d) + '</p><ol class="podio">' + html + '</ol>' + empate + '</article>';
+  }
+
+  function avisoPrueba() {
+    return DEMO ? '<p class="aviso">Modo de prueba: los votos se guardan solo en este navegador y cualquier código sirve.</p>' : '';
+  }
+
+  function inicioHTML() {
+    var hechas = CATS.length - pendientes().length;
+    var small = 'Entrada general', strong = 'Ir a votar', dis = false, nota = '';
+    if (st.codigo && st.estadoListo && hechas === CATS.length) {
+      dis = true; small = 'Gracias'; strong = '¡Ya votaste!';
+      nota = 'Votaste en las ' + CATS.length + ' categorías. Los resultados se actualizan solos.';
+    } else if (st.codigo && hechas > 0) {
+      small = hechas + ' de ' + CATS.length + ' listas'; strong = 'Seguir votando';
+    } else if (!st.codigo) {
+      nota = 'Para votar necesitas tu código personal.';
+    }
+    var aviso = st.fallo ? '<p class="aviso">No se pudo cargar el recuento todavía. Intentaremos de nuevo en unos segundos.</p>' : '';
+    return '<header class="marquesina"><div class="luces"></div>' +
+      '<p class="sobre">Estreno · Una noche para recordar</p>' +
+      '<h1>PROMO 2026</h1>' +
+      '<p class="sub">Despedida de clases · ' + ALUMNOS.length + ' compañeros, ' + CATS.length + ' premios</p>' +
+      '<div class="luces b"></div></header>' +
+      avisoPrueba() +
+      '<div class="zona-cta"><button class="boleto" data-ir type="button"' + (dis ? ' disabled' : '') + '><small>' + small + '</small><strong>' + strong + '</strong></button>' +
+      (nota ? '<p class="nota">' + esc(nota) + '</p>' : '') + '</div>' +
+      aviso +
+      '<div class="encabezado-res"><h2>Así van los premios</h2><p class="contador">' + st.total + (st.total === 1 ? ' voto registrado' : ' votos registrados') + '</p></div>' +
+      '<section class="pasarela" aria-label="Resultados por categoría">' + CATS.map(cartaHTML).join('') + '</section>';
+  }
+
+  // ---------- votar ----------
+  function volverBtn() { return '<button class="enlace" type="button" data-inicio>← Volver a los premios</button>'; }
+  function salirBtn() { return '<button class="enlace" type="button" data-salir>Cambiar de código</button>'; }
+
+  function entradaHTML() {
+    return '<div class="vota">' + '<div class="fila-sup">' + volverBtn() + '</div>' +
+      '<section class="entrada"><p class="paso">Entrada general</p><h1>Tu código</h1>' +
+      '<p class="desc">Escribe el código personal que te dieron para votar.</p>' + avisoPrueba() +
+      '<form class="codigo-form" id="form-codigo" autocomplete="off">' +
+      '<label class="sr" for="codigo">Código personal</label>' +
+      '<input id="codigo" type="text" inputmode="text" maxlength="12" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="A1B2C">' +
+      '<button class="boleto" id="btn-entrar" type="submit"><small>Presenta tu entrada</small><strong>Entrar</strong></button>' +
+      '</form><p class="error" id="error-codigo" role="alert" hidden></p></section></div>';
+  }
+
+  function votarHTML() {
+    if (!st.codigo) return entradaHTML();
+    if (!st.estadoListo) return '<div class="vota"><div class="fila-sup">' + volverBtn() + '</div><p class="aviso">Cargando tu boleta…</p></div>';
+    var pend = pendientes();
+    if (!pend.length) {
+      return '<section class="final">' + estrella() +
+        '<h1>¡Gracias por votar!</h1>' +
+        '<p>Tus ' + CATS.length + ' votos quedaron registrados. Nadie puede ver por quién votó cada persona.</p>' +
+        '<button class="boleto" type="button" data-inicio><small>Resultados</small><strong>Ver premios</strong></button>' +
+        '<p>' + salirBtn() + '</p></section>';
+    }
+    var cat = pend[0], idx = CATS.indexOf(cat);
+    var prog = CATS.map(function (c, i) {
+      return estrella(st.done[c.id] ? 'hecha' : (i === idx ? 'actual' : ''));
+    }).join('');
+    var cands = ORDEN.map(function (a) {
+      return '<label class="cand"><input type="radio" name="voto" value="' + a.id + '"' +
+        (st.sel === a.id ? ' checked' : '') + (st.saving ? ' disabled' : '') +
+        '><span class="tarjeta">' + esc(a.n) + '</span></label>';
+    }).join('');
+    return '<div class="vota"><div class="fila-sup">' + volverBtn() + salirBtn() + '</div>' +
+      '<div class="prog" role="img" aria-label="Categoría ' + (idx + 1) + ' de ' + CATS.length + '">' + prog + '</div>' +
+      '<p class="paso">Categoría ' + (idx + 1) + ' de ' + CATS.length + '</p>' +
+      '<h1>' + esc(cat.n) + '</h1>' +
+      '<p class="desc">' + esc(cat.d) + '</p>' +
+      '<p class="anonimo">Voto anónimo: nadie ve por quién votas.</p>' +
+      (st.flash ? '<p class="flash" role="status">' + esc(st.flash) + '</p>' : '') +
+      '<fieldset class="cands"><legend>Elige a un compañero para «' + esc(cat.n) + '»</legend>' + cands + '</fieldset>' +
+      '<p class="error" id="error" role="alert"' + (st.error ? '' : ' hidden') + '>' + esc(st.error) + '</p>' +
+      '<div class="barra"><div class="barra-in"><div class="eleccion"><small>Tu voto</small><b id="eleccion"></b></div>' +
+      '<button class="btn" type="button" id="confirmar" data-confirmar></button></div></div></div>';
+  }
+
+  function actualizarBarra() {
+    var e = document.getElementById('eleccion'), b = document.getElementById('confirmar'), er = document.getElementById('error');
+    if (!e || !b) return;
+    var ultima = pendientes().length === 1;
+    e.textContent = st.sel ? POR_ID[st.sel].n : 'Elige a un compañero';
+    b.textContent = st.saving ? 'Registrando…' : (ultima ? 'Confirmar y terminar' : 'Confirmar voto');
+    b.disabled = !st.sel || st.saving;
+    if (er) { er.textContent = st.error; er.hidden = !st.error; }
+  }
+
+  function render() {
+    app.innerHTML = vista() === 'votar' ? votarHTML() : inicioHTML();
+    actualizarBarra();
+  }
+
+  function olvidarCodigo() {
+    st.codigo = ''; st.done = {}; st.sel = null; st.error = ''; st.flash = ''; st.estadoListo = true;
+    borrar(CLAVE);
+  }
+
+  function entrar() {
+    var inp = document.getElementById('codigo');
+    var err = document.getElementById('error-codigo');
+    var btn = document.getElementById('btn-entrar');
+    var cod = limpiarCodigo(inp.value);
+    function mostrar(t) { err.textContent = t; err.hidden = false; }
+    if (!cod) { mostrar('Escribe tu código.'); return; }
+    btn.disabled = true; err.hidden = true;
+    llamar({ action: 'estado', codigo: cod }).then(function (r) {
+      if (r && r.ok) {
+        st.codigo = cod; guardar(CLAVE, cod);
+        st.done = normalizarDone(r.done); st.estadoListo = true; st.sel = null; st.flash = '';
+        render(); window.scrollTo(0, 0);
+      } else {
+        btn.disabled = false;
+        mostrar(r && r.error === 'codigo_invalido' ? 'Ese código no existe. Revisa que esté bien escrito.' : 'No se pudo comprobar el código. Inténtalo otra vez.');
+      }
+    }).catch(function () {
+      btn.disabled = false;
+      mostrar('No se pudo conectar. Revisa tu internet e inténtalo otra vez.');
+    });
+  }
+
+  async function confirmar() {
+    var pend = pendientes();
+    if (st.saving || !pend.length || !st.sel || !st.codigo) return;
+    var cat = pend[0];
+    st.saving = true; st.error = '';
+    render();
+    try {
+      var r = await llamar({ action: 'votar', codigo: st.codigo, cat: cat.id, alumno: st.sel });
+      if (r && r.ok) {
+        st.done = normalizarDone(r.done); st.done[cat.id] = true; st.sel = null;
+        st.flash = 'Voto registrado en «' + cat.n + '».';
+        refrescar();
+      } else if (r && r.error === 'ya_voto') {
+        st.done = normalizarDone(r.done); st.done[cat.id] = true; st.sel = null;
+        st.flash = 'Tu voto en «' + cat.n + '» ya estaba registrado.';
+      } else if (r && r.error === 'codigo_invalido') {
+        olvidarCodigo();
+      } else if (r && r.error === 'ocupado') {
+        st.error = 'Hay muchos votos al mismo tiempo. Inténtalo otra vez en un momento.';
+      } else {
+        st.error = 'No se pudo registrar tu voto. Inténtalo otra vez.';
+      }
+    } catch (e) {
+      st.error = 'No se pudo registrar tu voto. Revisa tu conexión e inténtalo otra vez.';
+    }
+    st.saving = false;
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  // ---------- eventos ----------
+  app.addEventListener('click', function (e) {
+    var t = e.target.closest('button');
+    if (!t || t.disabled) return;
+    if (t.hasAttribute('data-ir')) { location.hash = 'votar'; }
+    else if (t.hasAttribute('data-inicio')) { location.hash = 'inicio'; }
+    else if (t.hasAttribute('data-salir')) { olvidarCodigo(); render(); window.scrollTo(0, 0); }
+    else if (t.hasAttribute('data-confirmar')) { confirmar(); }
+  });
+  app.addEventListener('change', function (e) {
+    if (e.target && e.target.name === 'voto') { st.sel = e.target.value; actualizarBarra(); }
+  });
+  app.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (e.target && e.target.id === 'form-codigo') entrar();
+  });
+  window.addEventListener('hashchange', function () { render(); window.scrollTo(0, 0); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) refrescar(); });
+  setInterval(function () { if (!document.hidden) refrescar(); }, 20000);
+
+  // ---------- arranque ----------
+  st.codigo = limpiarCodigo(leer(CLAVE));
+  st.estadoListo = !st.codigo;
+  render();
+  refrescar();
+  if (st.codigo) {
+    llamar({ action: 'estado', codigo: st.codigo }).then(function (r) {
+      if (r && r.ok) { st.done = normalizarDone(r.done); }
+      else if (r && r.error === 'codigo_invalido') { olvidarCodigo(); }
+    }).catch(function () { /* sin conexión: el servidor corrige al votar */ }).then(function () {
+      st.estadoListo = true;
+      render();
+    });
+  }
+})();
+</script>
+</body>
+</html>
