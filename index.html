@@ -142,10 +142,8 @@ h1, h2 { text-wrap: balance; font-weight: 400; margin: 0; }
 
 /* Estrellas */
 .est { width: 22px; height: 22px; flex: none; fill: var(--oro); }
-.prog { display: flex; justify-content: center; gap: 6px; margin: 10px 0 4px; }
-.prog .est { width: 28px; height: 28px; fill: transparent; stroke: var(--oro); stroke-width: 1.4; opacity: 0.45; }
-.prog .hecha { fill: var(--oro); opacity: 1; }
-.prog .actual { fill: rgba(226, 178, 76, 0.25); opacity: 1; }
+.prog { height: 8px; margin: 14px 0 12px; border: 1px solid var(--linea); border-radius: 999px; background: var(--tarjeta); overflow: hidden; }
+.prog span { display: block; height: 100%; background: linear-gradient(90deg, var(--oro), var(--oro-claro)); }
 
 /* Votar */
 .vota { padding-bottom: 130px; }
@@ -211,6 +209,7 @@ h1, h2 { text-wrap: balance; font-weight: 400; margin: 0; }
 #codigo:focus-visible { outline: 3px solid var(--marfil); outline-offset: 3px; }
 
 @media (min-width: 640px) { .pasarela { padding: 22px 22px; gap: 18px; } .carta { padding: 18px 18px 16px; } }
+@media (min-width: 800px) { .pasarela { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { .luces { animation: none; } }
 </style>
 </head>
@@ -226,7 +225,7 @@ h1, h2 { text-wrap: balance; font-weight: 400; margin: 0; }
 
   // Pega aquí la URL de tu aplicación web de Apps Script (la que termina en /exec).
   // Si la dejas vacía, la página funciona en modo de prueba: los votos se guardan solo en este navegador.
-var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHfyBZz8MJbPN5nXDuoHrmOjK0hb1FC15asWR9xgI6u5RdA/exec';
+  var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHfyBZz8MJbPN5nXDuoHrmOjK0hb1FC15asWR9xgI6u5RdA/exec';
 
   var DEMO = !API_URL;
   var CLAVE = 'premios_codigo';
@@ -239,7 +238,25 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
     { id: 'moda', n: 'El/La Ícono de Moda', d: 'El mejor look del salón.' },
     { id: 'chispa', n: 'El/La Chispa', d: 'El que nos hacía reír en todo momento.' },
     { id: 'radio', n: 'La Radio del Grupo', d: 'El que siempre ponía la música o andaba cantando.' },
-    { id: 'incondicional', n: 'El/La Incondicional', d: 'El amigo que nunca le decía “no” a nadie.' }
+    { id: 'incondicional', n: 'El/La Incondicional', d: 'El amigo que nunca le decía “no” a nadie.' },
+    { id: 'impuntual', n: 'El/La Más Impuntual', d: 'El que casi nunca llegaba a tiempo.' },
+    { id: 'puntual', n: 'El/La Más Puntual', d: 'El que siempre llegaba antes que el profe.' },
+    { id: 'chistoso', n: 'El/La Más Chistoso(a)', d: 'El que contaba los mejores chistes del salón.' },
+    { id: 'callado', n: 'El/La Más Callado(a)', d: 'El que casi no se oía en todo el día.' },
+    { id: 'chismoso', n: 'El/La Más Chismoso(a)', d: 'El que siempre sabía todo lo que pasaba.' },
+    { id: 'reprobado', n: 'El/La Más Reprobado(a)', d: 'El que más veces se llevó una clase a recuperación.' },
+    { id: 'ruidoso', n: 'El/La Más Ruidoso(a)', d: 'El que se escuchaba desde el otro lado del pasillo.' },
+    { id: 'dormilon', n: 'El/La Más Dormilón(a)', d: 'El que dormía en clase en cualquier posición.' },
+    { id: 'reganado', n: 'El/La Más Regañado(a)', d: 'El que más veces escuchó su nombre seguido de un regaño.' },
+    { id: 'duo', n: 'El Best Duo', d: 'Los dos que siempre andaban juntos.', pareja: true },
+    { id: 'funable', n: 'El/La Más Funable', d: 'El que siempre se metía en problemas por sus ocurrencias.' },
+    { id: 'faltista', n: 'El/La que Más Falta', d: 'El que más veces faltó a clases.' },
+    { id: 'parejita', n: 'La Parejita del Salón', d: 'La pareja más famosa del salón.', pareja: true },
+    { id: 'aplicado', n: 'El/La Más Aplicado(a)', d: 'El que siempre tenía la tarea y los apuntes al día.' },
+    { id: 'mandon', n: 'El/La Más Mandón(a)', d: 'El que siempre quería dar las órdenes.' },
+    { id: 'participativo', n: 'El/La Más Participativo(a)', d: 'El que levantaba la mano en todas las clases.' },
+    { id: 'creativo', n: 'El/La Más Creativo(a)', d: 'El de las mejores ideas y trabajos.' },
+    { id: 'dramatico', n: 'El/La Más Dramático(a)', d: 'El que convertía cualquier cosa en una telenovela.' }
   ];
   // El orden debe ser igual al de NOMBRES en Code.gs (los ids son a01, a02, ...).
   var NOMBRES = [
@@ -261,7 +278,7 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
   var st = {
     codigo: '', estadoListo: false,
     counts: {}, total: 0, live: false, fallo: false,
-    done: {}, sel: null, saving: false, error: '', flash: ''
+    done: {}, sel: [], saving: false, error: '', flash: ''
   };
 
   // ---------- utilidades ----------
@@ -277,6 +294,16 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
   function limpiarCodigo(s) { return String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
   function pendientes() { return CATS.filter(function (c) { return !st.done[c.id]; }); }
   function estrella(cls) { return '<svg class="est ' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true"><use href="#estrella"/></svg>'; }
+  function esAlumno(id) { return Object.prototype.hasOwnProperty.call(POR_ID, id); }
+  // Una clave es un id ("a05") o, en las categorías de pareja, dos ids ordenados unidos por "+" ("a05+a09").
+  function claveValida(cat, clave) {
+    var p = String(clave).split('+');
+    if (cat.pareja) return p.length === 2 && p[0] < p[1] && esAlumno(p[0]) && esAlumno(p[1]);
+    return p.length === 1 && esAlumno(p[0]);
+  }
+  function etiqueta(clave) {
+    return String(clave).split('+').map(function (id) { return POR_ID[id].n; }).join(' y ');
+  }
   function normalizarDone(d) {
     var r = {};
     CATS.forEach(function (c) { if (d && d[c.id] === true) r[c.id] = true; });
@@ -324,7 +351,7 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
         if (!CAT_ID[c]) return;
         Object.keys(r.counts[c]).forEach(function (a) {
           var n = Number(r.counts[c][a]) || 0;
-          if (!POR_ID[a] || n < 1) return;
+          if (!claveValida(CAT_ID[c], a) || n < 1) return;
           counts[c] = counts[c] || {};
           counts[c][a] = n;
           total += n;
@@ -341,7 +368,7 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
   function top3(catId) {
     var m = st.counts[catId] || {};
     var arr = Object.keys(m).map(function (id) { return { id: id, n: m[id] }; });
-    arr.sort(function (a, b) { return b.n - a.n || POR_ID[a.id].n.localeCompare(POR_ID[b.id].n, 'es'); });
+    arr.sort(function (a, b) { return b.n - a.n || etiqueta(a.id).localeCompare(etiqueta(b.id), 'es'); });
     var top = arr.slice(0, 3).map(function (x) {
       return { id: x.id, n: x.n, rank: 1 + arr.filter(function (y) { return y.n > x.n; }).length };
     });
@@ -358,13 +385,13 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
     for (var i = 0; i < 3; i++) {
       var t = r.top[i];
       if (t) {
-        html += '<li><span class="puesto p' + t.rank + '">' + t.rank + '</span><span class="nom">' + esc(POR_ID[t.id].n) +
+        html += '<li><span class="puesto p' + t.rank + '">' + t.rank + '</span><span class="nom">' + esc(etiqueta(t.id)) +
           '</span><span class="n">' + t.n + (t.n === 1 ? ' voto' : ' votos') + '</span></li>';
       } else {
         html += '<li class="vacio"><span class="puesto">' + (i + 1) + '</span><span class="nom">Aún sin votos</span><span class="n"></span></li>';
       }
     }
-    var empate = r.extra ? '<p class="empate">Y ' + r.extra + (r.extra === 1 ? ' persona más' : ' personas más') + ' con los mismos votos que el tercer lugar.</p>' : '';
+    var empate = r.extra ? '<p class="empate">Y ' + r.extra + (c.pareja ? (r.extra === 1 ? ' pareja más' : ' parejas más') : (r.extra === 1 ? ' persona más' : ' personas más')) + ' con los mismos votos que el tercer lugar.</p>' : '';
     return '<article class="carta"><div class="carta-cab">' + estrella() + '<h2>' + esc(c.n) + '</h2></div>' +
       '<p class="desc">' + esc(c.d) + '</p><ol class="podio">' + html + '</ol>' + empate + '</article>';
   }
@@ -424,23 +451,22 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
         '<button class="boleto" type="button" data-inicio><small>Resultados</small><strong>Ver premios</strong></button>' +
         '<p>' + salirBtn() + '</p></section>';
     }
-    var cat = pend[0], idx = CATS.indexOf(cat);
-    var prog = CATS.map(function (c, i) {
-      return estrella(st.done[c.id] ? 'hecha' : (i === idx ? 'actual' : ''));
-    }).join('');
+    var cat = pend[0], idx = CATS.indexOf(cat), pareja = !!cat.pareja;
+    var pct = Math.max(4, Math.round(idx / CATS.length * 100));
+    var prog = '<div class="prog" role="img" aria-label="Categoría ' + (idx + 1) + ' de ' + CATS.length + '"><span style="width:' + pct + '%"></span></div>';
     var cands = ORDEN.map(function (a) {
-      return '<label class="cand"><input type="radio" name="voto" value="' + a.id + '"' +
-        (st.sel === a.id ? ' checked' : '') + (st.saving ? ' disabled' : '') +
+      return '<label class="cand"><input type="' + (pareja ? 'checkbox' : 'radio') + '" name="voto" value="' + a.id + '"' +
+        (st.sel.indexOf(a.id) >= 0 ? ' checked' : '') + (st.saving ? ' disabled' : '') +
         '><span class="tarjeta">' + esc(a.n) + '</span></label>';
     }).join('');
     return '<div class="vota"><div class="fila-sup">' + volverBtn() + salirBtn() + '</div>' +
-      '<div class="prog" role="img" aria-label="Categoría ' + (idx + 1) + ' de ' + CATS.length + '">' + prog + '</div>' +
+      prog +
       '<p class="paso">Categoría ' + (idx + 1) + ' de ' + CATS.length + '</p>' +
       '<h1>' + esc(cat.n) + '</h1>' +
       '<p class="desc">' + esc(cat.d) + '</p>' +
-      '<p class="anonimo">Voto anónimo: nadie ve por quién votas.</p>' +
+      '<p class="anonimo">' + (pareja ? 'Elige a dos compañeros. ' : '') + 'Voto anónimo: nadie ve por quién votas.</p>' +
       (st.flash ? '<p class="flash" role="status">' + esc(st.flash) + '</p>' : '') +
-      '<fieldset class="cands"><legend>Elige a un compañero para «' + esc(cat.n) + '»</legend>' + cands + '</fieldset>' +
+      '<fieldset class="cands"><legend>Elige ' + (pareja ? 'a dos compañeros' : 'a un compañero') + ' para «' + esc(cat.n) + '»</legend>' + cands + '</fieldset>' +
       '<p class="error" id="error" role="alert"' + (st.error ? '' : ' hidden') + '>' + esc(st.error) + '</p>' +
       '<div class="barra"><div class="barra-in"><div class="eleccion"><small>Tu voto</small><b id="eleccion"></b></div>' +
       '<button class="btn" type="button" id="confirmar" data-confirmar></button></div></div></div>';
@@ -449,10 +475,17 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
   function actualizarBarra() {
     var e = document.getElementById('eleccion'), b = document.getElementById('confirmar'), er = document.getElementById('error');
     if (!e || !b) return;
-    var ultima = pendientes().length === 1;
-    e.textContent = st.sel ? POR_ID[st.sel].n : 'Elige a un compañero';
+    var pend = pendientes(), ultima = pend.length === 1;
+    var pareja = !!(pend[0] && pend[0].pareja);
+    var nombres = st.sel.map(function (id) { return POR_ID[id].n; });
+    if (nombres.length) { e.textContent = nombres.join(' + ') + (pareja && nombres.length === 1 ? ' + ...' : ''); }
+    else { e.textContent = pareja ? 'Elige a 2 compañeros' : 'Elige a un compañero'; }
     b.textContent = st.saving ? 'Registrando…' : (ultima ? 'Confirmar y terminar' : 'Confirmar voto');
-    b.disabled = !st.sel || st.saving;
+    b.disabled = st.sel.length !== (pareja ? 2 : 1) || st.saving;
+    var inputs = app.querySelectorAll('input[name=voto]');
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].disabled = st.saving || (pareja && st.sel.length >= 2 && !inputs[i].checked);
+    }
     if (er) { er.textContent = st.error; er.hidden = !st.error; }
   }
 
@@ -462,7 +495,7 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
   }
 
   function olvidarCodigo() {
-    st.codigo = ''; st.done = {}; st.sel = null; st.error = ''; st.flash = ''; st.estadoListo = true;
+    st.codigo = ''; st.done = {}; st.sel = []; st.error = ''; st.flash = ''; st.estadoListo = true;
     borrar(CLAVE);
   }
 
@@ -477,7 +510,7 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
     llamar({ action: 'estado', codigo: cod }).then(function (r) {
       if (r && r.ok) {
         st.codigo = cod; guardar(CLAVE, cod);
-        st.done = normalizarDone(r.done); st.estadoListo = true; st.sel = null; st.flash = '';
+        st.done = normalizarDone(r.done); st.estadoListo = true; st.sel = []; st.flash = '';
         render(); window.scrollTo(0, 0);
       } else {
         btn.disabled = false;
@@ -491,18 +524,20 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
 
   async function confirmar() {
     var pend = pendientes();
-    if (st.saving || !pend.length || !st.sel || !st.codigo) return;
+    if (st.saving || !pend.length || !st.codigo) return;
     var cat = pend[0];
+    if (st.sel.length !== (cat.pareja ? 2 : 1)) return;
+    var clave = st.sel.slice().sort().join('+');
     st.saving = true; st.error = '';
     render();
     try {
-      var r = await llamar({ action: 'votar', codigo: st.codigo, cat: cat.id, alumno: st.sel });
+      var r = await llamar({ action: 'votar', codigo: st.codigo, cat: cat.id, alumno: clave });
       if (r && r.ok) {
-        st.done = normalizarDone(r.done); st.done[cat.id] = true; st.sel = null;
+        st.done = normalizarDone(r.done); st.done[cat.id] = true; st.sel = [];
         st.flash = 'Voto registrado en «' + cat.n + '».';
         refrescar();
       } else if (r && r.error === 'ya_voto') {
-        st.done = normalizarDone(r.done); st.done[cat.id] = true; st.sel = null;
+        st.done = normalizarDone(r.done); st.done[cat.id] = true; st.sel = [];
         st.flash = 'Tu voto en «' + cat.n + '» ya estaba registrado.';
       } else if (r && r.error === 'codigo_invalido') {
         olvidarCodigo();
@@ -529,7 +564,20 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbzhafokqOT9kYWIA2gUP2wfHf
     else if (t.hasAttribute('data-confirmar')) { confirmar(); }
   });
   app.addEventListener('change', function (e) {
-    if (e.target && e.target.name === 'voto') { st.sel = e.target.value; actualizarBarra(); }
+    var t = e.target;
+    if (!t || t.name !== 'voto') return;
+    var cat = pendientes()[0];
+    if (cat && cat.pareja) {
+      var i = st.sel.indexOf(t.value);
+      if (t.checked && i < 0) {
+        if (st.sel.length < 2) { st.sel.push(t.value); } else { t.checked = false; }
+      } else if (!t.checked && i >= 0) {
+        st.sel.splice(i, 1);
+      }
+    } else {
+      st.sel = [t.value];
+    }
+    actualizarBarra();
   });
   app.addEventListener('submit', function (e) {
     e.preventDefault();
